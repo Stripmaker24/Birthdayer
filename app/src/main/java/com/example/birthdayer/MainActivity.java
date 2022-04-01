@@ -18,4 +18,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BirthdayMapActivity.class);
         startActivity(intent);
     }
+
+    public void toListScreen(View view){
+        Intent intent = new Intent(this, BirthdayListActivity.class);
+        startActivity(intent);
+    }
+
 }

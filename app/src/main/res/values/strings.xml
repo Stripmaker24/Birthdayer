@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Birthdayer</string>
+    <string name="Name">Michelle</string>
+    <string name="Age">20</string>
 </resources>

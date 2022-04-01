@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_birthday_list.xml" value="0.259375" />
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_birthday_map.xml" value="0.1" />
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_main.xml" value="0.259375" />
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/single_items.xml" value="0.3567708333333333" />
         <entry key="..\:/Users/julia/Documents/Birthdayer/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/julia/Documents/Birthdayer/app/src/main/res/layout/birthday_map.xml" value="0.33" />
       </map>
