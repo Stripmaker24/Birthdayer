@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Birthdayer">
         <activity
+            android:name=".BirthdayListDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".BirthdayListActivity"/>
+        <activity
             android:name=".BirthdayListActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".BirthdayMapActivity"
             android:parentActivityName=".MainActivity">
