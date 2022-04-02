@@ -17,6 +17,7 @@ import com.mapbox.mapboxsdk.maps.Style;
 public class BirthdayMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private MapView mapView;
+    private MapboxMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
