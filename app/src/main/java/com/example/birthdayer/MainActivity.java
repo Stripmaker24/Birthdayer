@@ -55,4 +55,10 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    public void toListScreen(View view){
+        Intent intent = new Intent(this, BirthdayListActivity.class);
+        startActivity(intent);
+    }
+
 }

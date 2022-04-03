@@ -12,6 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Birthdayer">
+        <activity
+            android:name=".BirthdayListDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".BirthdayListActivity"/>
+        <activity
+            android:name=".BirthdayListActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".BirthdayMapActivity"
+            android:parentActivityName=".MainActivity">
         <activity android:name=".BirthdayMapActivity"
             android:parentActivityName=".MainActivity"
             android:exported="false">
