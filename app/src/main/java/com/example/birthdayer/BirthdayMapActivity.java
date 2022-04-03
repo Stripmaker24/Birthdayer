@@ -10,8 +10,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
@@ -20,6 +25,16 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BirthdayMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
@@ -60,8 +75,11 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap)
     {
+        getPointsToMark(mapboxMap);
+
         mapboxMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.441642, 5.4697225)));
+                .position(new LatLng(51.441642, 5.4697225))
+                .title("Current Location"));
 
         mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
             @Override
@@ -71,6 +89,54 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
                 toast.show();
 
                 mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(latitude,longitude)).zoom(15).build());
+            }
+        });
+    }
+
+    private void getPointsToMark(MapboxMap mapboxMap) {
+        File file = new File(this.getFilesDir(), "BirthdayData.txt");
+
+        int character;
+        StringBuilder textBuilder = new StringBuilder();
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            while ((character = fis.read()) != -1)
+            {
+                textBuilder.append((char) character);
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Log.e("FileNotfound", "File in main not found." + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
+                .accessToken(getString(R.string.mapbox_access_token))
+                .query(textBuilder.toString())
+                .build();
+
+        mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
+            @Override
+            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+
+                List<CarmenFeature> results = response.body().features();
+                if (results.size() > 0) {
+                    Point firstResultPoint = results.get(0).center();
+                    Log.e("TAG", "onResponse: " + firstResultPoint.toString());
+
+                    mapboxMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(firstResultPoint.latitude(), firstResultPoint.longitude()))
+                            .title(String.valueOf(firstResultPoint.latitude()) + ", " + String.valueOf(firstResultPoint.longitude())));
+                } else {
+                    Log.e("TAG", "onResponse: No result found");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeocodingResponse> call, Throwable throwable) {
+                throwable.printStackTrace();
             }
         });
     }
