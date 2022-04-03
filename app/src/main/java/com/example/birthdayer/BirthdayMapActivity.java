@@ -119,7 +119,7 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
 
         mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
             @Override
-            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+            public void onResponse(@NonNull Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
 
                 List<CarmenFeature> results = response.body().features();
                 if (results.size() > 0) {
@@ -135,7 +135,7 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
             }
 
             @Override
-            public void onFailure(Call<GeocodingResponse> call, Throwable throwable) {
+            public void onFailure(@NonNull Call<GeocodingResponse> call, @NonNull Throwable throwable) {
                 throwable.printStackTrace();
             }
         });
