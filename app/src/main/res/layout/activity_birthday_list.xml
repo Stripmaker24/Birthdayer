@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"></androidx.recyclerview.widget.RecyclerView>
+        tools:layout_editor_absoluteY="8dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_person_button"
@@ -25,5 +25,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/recycler_List"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_input_add"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        android:focusable="true" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

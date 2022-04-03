@@ -15,24 +15,33 @@
         <TextView
             android:id="@+id/textName"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/Name"
             android:textColor="@color/black"
-            android:textSize="26sp">
-
+            android:textSize="26sp"
+            android:gravity="center_vertical|start">
         </TextView>
+
         <TextView
             android:id="@+id/textAge"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:paddingRight="8dp"
             android:text="@string/Age"
-            android:textAlignment="textEnd"
             android:textColor="@color/black"
-            android:textSize="26sp">
+            android:textSize="26sp" />
 
-        </TextView>
+        <ImageButton
+            android:id="@+id/deleteBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:backgroundTint="@color/design_default_color_error"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_delete" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

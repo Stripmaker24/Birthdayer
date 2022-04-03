@@ -159,9 +159,10 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
             // -- FOR TESTING --
 //
             BirthdayDatabase birthdayDb = BirthdayDatabase.getInstance(context);
-//
+
 //            Birthday birthday = new Birthday("Michelle", "Kennedylaan 2, Veghel");
-////            birthdayDb.birthdayDao().emptyTable();
+//            birthdayDb.birthdayDao().emptyTable();
+
 //            birthdayDb.birthdayDao().insertBirthday(birthday);
 
             // -----------------
