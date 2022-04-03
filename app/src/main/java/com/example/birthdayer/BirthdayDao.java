@@ -12,14 +12,19 @@ import java.util.List;
 public interface BirthdayDao {
     @Query("SELECT * FROM birthday")
     List<Birthday> getBirthdayList();
+
     @Insert
     void insertBirthday(Birthday birthday);
+
     @Update
     void updateBirthday(Birthday birthday);
+
     @Delete
     void deleteBirthday(Birthday birthday);
+
     @Query("SELECT address FROM birthday")
     List<String> getBirthdayLocations();
+
     @Query("DELETE FROM birthday")
     void emptyTable();
 }

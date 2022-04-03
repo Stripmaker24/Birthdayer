@@ -52,20 +52,18 @@ public class AddPersonDialogFragment extends DialogFragment {
                     String clean = date.getText().toString().replaceAll("[^\\d.]|\\.", "");
                     String cleanC = current.replaceAll("[^\\d.]|\\.", "");
 
-                    int cl = clean.length();
-                    int sel = cl;
-                    for (int j = 2; j <= cl && j < 6; j += 2) {
-                        sel++;
+                    int cleanLength = clean.length();
+                    int setLength = cleanLength;
+                    for (int j = 2; j <= cleanLength && j < 6; j += 2) {
+                        setLength++;
                     }
                     //Fix for pressing delete next to a forward slash
-                    if (clean.equals(cleanC)) sel--;
+                    if (clean.equals(cleanC)) setLength--;
 
                     if (clean.length() < 8) {
                         String ddmmyyyy = "DDMMYYYY";
                         clean = clean + ddmmyyyy.substring(clean.length());
                     } else {
-                        //This part makes sure that when we finish entering numbers
-                        //the date is correct, fixing it otherwise
                         int day = Integer.parseInt(clean.substring(0, 2));
                         int month = Integer.parseInt(clean.substring(2, 4));
                         int year = Integer.parseInt(clean.substring(4, 8));
@@ -74,9 +72,6 @@ public class AddPersonDialogFragment extends DialogFragment {
                         cal.set(Calendar.MONTH, month - 1);
                         year = (year < 1900) ? 1900 : Math.min(year, 2100);
                         cal.set(Calendar.YEAR, year);
-                        // ^ first set year for the line below to work correctly
-                        //with leap years - otherwise, date e.g. 29/02/2012
-                        //would be automatically corrected to 28/02/2012
 
                         day = Math.min(day, cal.getActualMaximum(Calendar.DATE));
                         clean = String.format("%02d%02d%02d", day, month, year);
@@ -86,10 +81,10 @@ public class AddPersonDialogFragment extends DialogFragment {
                             clean.substring(2, 4),
                             clean.substring(4, 8));
 
-                    sel = Math.max(sel, 0);
+                    setLength = Math.max(setLength, 0);
                     current = clean;
                     date.setText(current);
-                    date.setSelection(Math.min(sel, current.length()));
+                    date.setSelection(Math.min(setLength, current.length()));
                 }
             }
 
@@ -97,7 +92,6 @@ public class AddPersonDialogFragment extends DialogFragment {
             public void afterTextChanged(Editable editable) {
                 if (!date.getText().toString().matches("^\\d{2}/\\d{2}/\\d{4}$")) {
                     date.setError("Not right date format (dd/mm/yyyy)");
-                    //alertDialog.getButton(Dialog.BUTTON_POSITIVE).setClickable(false);
                 }
             }
         });
