@@ -48,7 +48,7 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
 
         getLocation();
 
-        mapView = (MapView) findViewById(R.id.mapView);
+        mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
     }
@@ -76,18 +76,15 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
         new setMarkersTask(mapboxMap, this).execute();
 
         mapboxMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.441642, 5.4697225))
+                .position(new LatLng(latitude, longitude))
                 .title("Current Location"));
 
-        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
-            @Override
-            public void onStyleLoaded(@NonNull Style style) {
-                Toast toast = Toast.makeText(mapView.getContext().getApplicationContext(),
-                        "Map styles are ready", Toast.LENGTH_SHORT);
-                toast.show();
+        mapboxMap.setStyle(Style.MAPBOX_STREETS, style -> {
+            Toast toast = Toast.makeText(mapView.getContext().getApplicationContext(),
+                    "Map styles are ready", Toast.LENGTH_SHORT);
+            toast.show();
 
-                mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(15).build());
-            }
+            mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(15).build());
         });
     }
 
@@ -144,27 +141,19 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
     }
 
     @SuppressWarnings({"deprecation", "StaticFieldLeak"})
-    private static class setMarkersTask extends AsyncTask<Void, Void, List<String>>
-    {
+    private static class setMarkersTask extends AsyncTask<Void, Void, List<String>> {
         private final MapboxMap mapboxMap;
         private final Context context;
 
-        public setMarkersTask(MapboxMap mapboxMap, Context context){
+        public setMarkersTask(MapboxMap mapboxMap, Context context) {
             this.mapboxMap = mapboxMap;
             this.context = context;
         }
 
         @Override
         protected List<String> doInBackground(Void... params) {
-            // -- FOR TESTING --
-//
-            BirthdayDatabase birthdayDb = BirthdayDatabase.getInstance(context);
-//
-//            Birthday birthday = new Birthday("Michelle", "Kennedylaan 2, Veghel");
-////            birthdayDb.birthdayDao().emptyTable();
-//            birthdayDb.birthdayDao().insertBirthday(birthday);
 
-            // -----------------
+            BirthdayDatabase birthdayDb = BirthdayDatabase.getInstance(context);
 
             List<String> locations = birthdayDb.birthdayDao().getBirthdayLocations();
 
@@ -180,14 +169,16 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
                     @Override
                     public void onResponse(@NonNull Call<GeocodingResponse> call, @NonNull Response<GeocodingResponse> response) {
 
+                        assert response.body() != null;
                         List<CarmenFeature> results = response.body().features();
                         if (results.size() > 0) {
                             Point firstResultPoint = results.get(0).center();
                             Log.i("GEOCODE_RESPONSE", "onResponse: " + firstResultPoint);
 
+                            assert firstResultPoint != null;
                             mapboxMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(firstResultPoint.latitude(), firstResultPoint.longitude()))
-                                    .title(firstResultPoint.latitude() + ", " + firstResultPoint.longitude()));
+                                    .title(results.get(0).placeName()));
                         } else {
                             Log.i("GEOCODE_RESPONSE", "onResponse: No result found");
                         }

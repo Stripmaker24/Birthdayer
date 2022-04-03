@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -24,6 +23,7 @@ public class BirthdayListActivity extends AppCompatActivity implements SelectLis
     FloatingActionButton addPersonButton;
     List<ListModel> listModelList;
     ListAdapter listAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,23 +34,15 @@ public class BirthdayListActivity extends AppCompatActivity implements SelectLis
 
     private void displayItems() {
         addPersonButton = findViewById(R.id.add_person_button);
-        addPersonButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialog();
-            }
-        });
+        addPersonButton.setOnClickListener(view -> openDialog());
         recyclerView = findViewById(R.id.recycler_List);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,1));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         try {
             listModelList = new getBirthdayData(this).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        //listModelList.add(new ListModel("Michelle", LocalDate.of(2001,4,24)));
         listAdapter = new ListAdapter(this, listModelList, this);
         recyclerView.setAdapter(listAdapter);
     }
@@ -69,18 +61,22 @@ public class BirthdayListActivity extends AppCompatActivity implements SelectLis
 
     @Override
     public void onDialogPositiveClick(String name, LocalDate date, String location) {
-        ListModel newListModel = new ListModel(name,date,location);
+        ListModel newListModel = new ListModel(name, date, location);
         listModelList.add(newListModel);
         new addBirthdayData(this, newListModel).execute();
     }
 
     private static class addBirthdayData extends AsyncTask<Void, Void, Boolean> {
+        @SuppressLint("StaticFieldLeak")
         private final Context context;
         private final ListModel newListModel;
-        public addBirthdayData(Context context, ListModel newListModel){
+
+        @SuppressWarnings("deprecation")
+        public addBirthdayData(Context context, ListModel newListModel) {
             this.context = context;
             this.newListModel = newListModel;
         }
+
         @SuppressLint("NewApi")
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -90,20 +86,22 @@ public class BirthdayListActivity extends AppCompatActivity implements SelectLis
         }
     }
 
-    private static class getBirthdayData extends AsyncTask<Void,Void,List<ListModel>> {
+    private static class getBirthdayData extends AsyncTask<Void, Void, List<ListModel>> {
+        @SuppressLint("StaticFieldLeak")
         private final Context context;
-        public getBirthdayData(Context context){
+
+        @SuppressWarnings("deprecation")
+        public getBirthdayData(Context context) {
             this.context = context;
         }
+
         @SuppressLint("NewApi")
         @Override
         protected List<ListModel> doInBackground(Void... params) {
             BirthdayDatabase birthdayDatabase = BirthdayDatabase.getInstance(context);
-            List<Birthday> DBlist = birthdayDatabase.birthdayDao().getBirthdayList();
+            List<Birthday> DbList = birthdayDatabase.birthdayDao().getBirthdayList();
             List<ListModel> listModels = new ArrayList<>();
-            DBlist.forEach(birthday -> {
-                listModels.add(new ListModel(birthday.name, LocalDate.ofEpochDay(birthday.birthDate), birthday.address));
-            });
+            DbList.forEach(birthday -> listModels.add(new ListModel(birthday.name, LocalDate.ofEpochDay(birthday.birthDate), birthday.address)));
             return listModels;
         }
     }

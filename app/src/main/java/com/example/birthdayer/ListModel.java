@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 
 public class ListModel implements Parcelable {
     String name = "";
