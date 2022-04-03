@@ -74,7 +74,7 @@ public class ListAdapter extends RecyclerView.Adapter<CustomViewHolder> {
             for (Birthday birthday : DBlist) {
                 if(birthday.name.equals(listModel.name)
                         && birthday.birthDate.equals(listModel.birthday.getLong(ChronoField.EPOCH_DAY))
-                        && birthday.address.equals("Kennedylaan 2 Veghel")){
+                        && birthday.address.equals(listModel.location)){
                     birthdayDatabase.birthdayDao().deleteBirthday(birthday);
                 }
             }

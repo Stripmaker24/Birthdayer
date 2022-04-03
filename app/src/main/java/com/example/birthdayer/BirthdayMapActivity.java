@@ -156,16 +156,8 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
 
         @Override
         protected List<String> doInBackground(Void... params) {
-            // -- FOR TESTING --
-//
+
             BirthdayDatabase birthdayDb = BirthdayDatabase.getInstance(context);
-
-//            Birthday birthday = new Birthday("Michelle", "Kennedylaan 2, Veghel");
-//            birthdayDb.birthdayDao().emptyTable();
-
-//            birthdayDb.birthdayDao().insertBirthday(birthday);
-
-            // -----------------
 
             List<String> locations = birthdayDb.birthdayDao().getBirthdayLocations();
 
@@ -188,7 +180,7 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
 
                             mapboxMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(firstResultPoint.latitude(), firstResultPoint.longitude()))
-                                    .title(firstResultPoint.latitude() + ", " + firstResultPoint.longitude()));
+                                    .title(results.get(0).placeName()));
                         } else {
                             Log.i("GEOCODE_RESPONSE", "onResponse: No result found");
                         }
