@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class BirthdayListDetailActivity extends AppCompatActivity {
             calendar.set(nextBirthdayDate.getYear(), nextBirthdayDate.getMonthValue()-1, nextBirthdayDate.getDayOfMonth());
             Long nextBirthdayLong = calendar.getTimeInMillis();
             nextBirthday.setDate(nextBirthdayLong, true, true);
+            Log.e("datum", String.valueOf(nextBirthday.getDate()));
         }
     }
 
