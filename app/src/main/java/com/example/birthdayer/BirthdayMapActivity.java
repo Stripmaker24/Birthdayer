@@ -183,11 +183,11 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
                         List<CarmenFeature> results = response.body().features();
                         if (results.size() > 0) {
                             Point firstResultPoint = results.get(0).center();
-                            Log.i("GEOCODE_RESPONSE", "onResponse: " + firstResultPoint.toString());
+                            Log.i("GEOCODE_RESPONSE", "onResponse: " + firstResultPoint);
 
                             mapboxMap.addMarker(new MarkerOptions()
                                     .position(new LatLng(firstResultPoint.latitude(), firstResultPoint.longitude()))
-                                    .title(String.valueOf(firstResultPoint.latitude()) + ", " + String.valueOf(firstResultPoint.longitude())));
+                                    .title(firstResultPoint.latitude() + ", " + firstResultPoint.longitude()));
                         } else {
                             Log.i("GEOCODE_RESPONSE", "onResponse: No result found");
                         }
