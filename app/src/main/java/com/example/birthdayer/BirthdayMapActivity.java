@@ -76,7 +76,7 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
         new setMarkersTask(mapboxMap, this).execute();
 
         mapboxMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.441642, 5.4697225))
+                .position(new LatLng(latitude, longitude))
                 .title("Current Location"));
 
         mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
