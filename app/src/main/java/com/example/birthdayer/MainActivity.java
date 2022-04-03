@@ -40,15 +40,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        testImplicitSettings();
-    }
-
-    public void testImplicitSettings() {
-        Intent intent = new Intent(Settings.ACTION_DISPLAY_SETTINGS);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
     }
 
     public void toMapScreen(View view) {
