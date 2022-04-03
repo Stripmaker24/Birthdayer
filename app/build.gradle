@@ -38,8 +38,8 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Mapbox
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.5.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.1'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.11.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-telemetry:8.1.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:6.3.0'
 

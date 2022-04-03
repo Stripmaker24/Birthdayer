@@ -32,16 +32,17 @@ public class BirthdayListDetailActivity extends AppCompatActivity {
             TextView name = findViewById(R.id.name_detail);
             TextView age = findViewById(R.id.age_detail);
             TextView daysUntilBirthday = findViewById(R.id.days_detail);
+            TextView location = findViewById(R.id.location_detail);
             CalendarView nextBirthday = findViewById(R.id.next_birthday_detail);
 
             name.setText(listModel.getName());
             age.setText(String.valueOf(listModel.getAge()));
+            location.setText(listModel.getLocation());
             LocalDate nextBirthdayDate = calculateNextBirthday(listModel.getBirthday());
             daysUntilBirthday.setText(calculateDays(nextBirthdayDate));
             calendar.set(nextBirthdayDate.getYear(), nextBirthdayDate.getMonthValue()-1, nextBirthdayDate.getDayOfMonth());
             Long nextBirthdayLong = calendar.getTimeInMillis();
             nextBirthday.setDate(nextBirthdayLong, true, true);
-            Log.e("datum", String.valueOf(nextBirthday.getDate()));
         }
     }
 

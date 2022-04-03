@@ -157,11 +157,12 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
         @Override
         protected List<String> doInBackground(Void... params) {
             // -- FOR TESTING --
-
+//
             BirthdayDatabase birthdayDb = BirthdayDatabase.getInstance(context);
 
 //            Birthday birthday = new Birthday("Michelle", "Kennedylaan 2, Veghel");
 //            birthdayDb.birthdayDao().emptyTable();
+
 //            birthdayDb.birthdayDao().insertBirthday(birthday);
 
             // -----------------

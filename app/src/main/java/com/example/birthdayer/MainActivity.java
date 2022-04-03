@@ -7,8 +7,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,21 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        File file = new File(this.getFilesDir(), "BirthdayData.txt");
-
-        String text = "1600 Pennsylvania Ave NW";
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(file);
-            fos.write(text.getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            Log.e("FileNotfound", "File in main not found." + file.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }

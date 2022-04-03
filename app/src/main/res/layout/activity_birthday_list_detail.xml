@@ -50,13 +50,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="24dp"
         android:text="Days until next birthday:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/age_detail_tag" />
+
+    <TextView
+        android:id="@+id/location_detail_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Location of party:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/days_detail_tag" />
 
     <TextView
         android:id="@+id/age_detail"
@@ -76,15 +85,29 @@
         android:id="@+id/days_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:text="@string/Age"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="@+id/age_detail"
         app:layout_constraintStart_toEndOf="@+id/days_detail_tag"
         app:layout_constraintStart_toStartOf="@+id/age_detail"
         app:layout_constraintTop_toBottomOf="@+id/age_detail" />
+
+    <TextView
+        android:id="@+id/location_detail"
+        android:layout_width="299dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/Name"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/location_detail_tag" />
 
     <CalendarView
         android:id="@+id/next_birthday_detail"
@@ -121,6 +144,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="187dp"
+        app:layout_constraintGuide_begin="233dp"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

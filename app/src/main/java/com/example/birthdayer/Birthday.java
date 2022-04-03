@@ -32,8 +32,9 @@ public class Birthday {
     }
 
     @Ignore
-    public Birthday(String name, String address) {
+    public Birthday(String name, Long birthday, String address) {
         this.name = name;
+        this.birthDate = birthday;
         this.address = address;
     }
 }
