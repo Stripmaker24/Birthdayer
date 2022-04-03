@@ -12,6 +12,7 @@ public class CustomViewHolder extends RecyclerView.ViewHolder {
     public TextView textName, textAge;
     public CardView cardView;
     public ImageButton deleteBtn;
+
     public CustomViewHolder(@NonNull View itemView) {
         super(itemView);
         textName = itemView.findViewById(R.id.textName);
