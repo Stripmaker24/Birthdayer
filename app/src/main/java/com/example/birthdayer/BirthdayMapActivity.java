@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,10 +27,6 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,22 +57,23 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
     private void getLocation() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
-        String bestProvider = String.valueOf(locationManager.getBestProvider(criteria, true)).toString();
+        String bestProvider = String.valueOf(locationManager.getBestProvider(criteria, true));
 
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         if (location != null) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-        } else{
+        } else {
             locationManager.requestLocationUpdates(bestProvider, 1000, 0, this);
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void onMapReady(@NonNull MapboxMap mapboxMap)
-    {
-        getPointsToMark(mapboxMap);
+    public void onMapReady(@NonNull MapboxMap mapboxMap) {
+
+        new setMarkersTask(mapboxMap, this).execute();
 
         mapboxMap.addMarker(new MarkerOptions()
                 .position(new LatLng(51.441642, 5.4697225))
@@ -88,55 +86,7 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
                         "Map styles are ready", Toast.LENGTH_SHORT);
                 toast.show();
 
-                mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(latitude,longitude)).zoom(15).build());
-            }
-        });
-    }
-
-    private void getPointsToMark(MapboxMap mapboxMap) {
-        File file = new File(this.getFilesDir(), "BirthdayData.txt");
-
-        int character;
-        StringBuilder textBuilder = new StringBuilder();
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(file);
-            while ((character = fis.read()) != -1)
-            {
-                textBuilder.append((char) character);
-            }
-            fis.close();
-        } catch (FileNotFoundException e) {
-            Log.e("FileNotfound", "File in main not found." + file.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
-                .accessToken(getString(R.string.mapbox_access_token))
-                .query(textBuilder.toString())
-                .build();
-
-        mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
-
-                List<CarmenFeature> results = response.body().features();
-                if (results.size() > 0) {
-                    Point firstResultPoint = results.get(0).center();
-                    Log.e("TAG", "onResponse: " + firstResultPoint.toString());
-
-                    mapboxMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(firstResultPoint.latitude(), firstResultPoint.longitude()))
-                            .title(String.valueOf(firstResultPoint.latitude()) + ", " + String.valueOf(firstResultPoint.longitude())));
-                } else {
-                    Log.e("TAG", "onResponse: No result found");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<GeocodingResponse> call, @NonNull Throwable throwable) {
-                throwable.printStackTrace();
+                mapboxMap.setCameraPosition(new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(15).build());
             }
         });
     }
@@ -191,5 +141,65 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
     protected void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+    }
+
+    @SuppressWarnings({"deprecation", "StaticFieldLeak"})
+    private static class setMarkersTask extends AsyncTask<Void, Void, List<String>>
+    {
+        private final MapboxMap mapboxMap;
+        private final Context context;
+
+        public setMarkersTask(MapboxMap mapboxMap, Context context){
+            this.mapboxMap = mapboxMap;
+            this.context = context;
+        }
+
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            // -- FOR TESTING --
+
+            BirthdayDatabase birthdayDb = BirthdayDatabase.getInstance(context);
+
+            Birthday birthday = new Birthday("Michelle", "Kennedylaan 2, Veghel");
+//            birthdayDb.birthdayDao().emptyTable();
+            birthdayDb.birthdayDao().insertBirthday(birthday);
+
+            // -----------------
+
+            List<String> locations = birthdayDb.birthdayDao().getBirthdayLocations();
+
+            for (int i = 0; i < locations.size(); i++) {
+                MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
+                        .accessToken(context.getString(R.string.mapbox_access_token))
+                        .query(locations.get(i))
+                        .build();
+
+                mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
+
+                    @SuppressWarnings("deprecation")
+                    @Override
+                    public void onResponse(@NonNull Call<GeocodingResponse> call, @NonNull Response<GeocodingResponse> response) {
+
+                        List<CarmenFeature> results = response.body().features();
+                        if (results.size() > 0) {
+                            Point firstResultPoint = results.get(0).center();
+                            Log.i("GEOCODE_RESPONSE", "onResponse: " + firstResultPoint.toString());
+
+                            mapboxMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(firstResultPoint.latitude(), firstResultPoint.longitude()))
+                                    .title(String.valueOf(firstResultPoint.latitude()) + ", " + String.valueOf(firstResultPoint.longitude())));
+                        } else {
+                            Log.i("GEOCODE_RESPONSE", "onResponse: No result found");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<GeocodingResponse> call, @NonNull Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
+            }
+            return locations;
+        }
     }
 }
