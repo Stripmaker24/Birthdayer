@@ -33,6 +33,7 @@ public class AddPersonDialogFragment extends DialogFragment {
         dialogView = inflater.inflate(R.layout.add_person_dialog_fragment, null);
         EditText name = (EditText) dialogView.findViewById(R.id.add_person_dialog_name);
         EditText date = (EditText) dialogView.findViewById(R.id.add_person_dialog_birthday);
+        EditText location = (EditText) dialogView.findViewById(R.id.add_person_dialog_address);
         date.addTextChangedListener(new TextWatcher() {
             private String current = "";
             private String ddmmyyyy = "DDMMYYYY";
@@ -101,11 +102,12 @@ public class AddPersonDialogFragment extends DialogFragment {
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                if(date.getError() == null && name.getText().toString() != null){
+                if(date.getError() == null && name.getText().toString() != null && location.getText().toString() != null){
                     String dateStr = date.getText().toString();
                     LocalDate dateDate = LocalDate.parse(dateStr, formatter);
                     String nameStr = name.getText().toString();
-                    listener.onDialogPositiveClick(nameStr, dateDate);
+                    String locationStr = location.getText().toString();
+                    listener.onDialogPositiveClick(nameStr, dateDate, locationStr);
                 } else{
                     Toast.makeText(getActivity(),"Did not add due to invalid input",Toast.LENGTH_SHORT).show();
                 }

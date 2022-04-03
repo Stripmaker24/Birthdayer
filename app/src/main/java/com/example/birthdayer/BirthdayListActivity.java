@@ -68,8 +68,8 @@ public class BirthdayListActivity extends AppCompatActivity implements SelectLis
     }
 
     @Override
-    public void onDialogPositiveClick(String name, LocalDate date) {
-        ListModel newListModel = new ListModel(name,date);
+    public void onDialogPositiveClick(String name, LocalDate date, String location) {
+        ListModel newListModel = new ListModel(name,date,location);
         listModelList.add(newListModel);
         new addBirthdayData(this, newListModel).execute();
     }
@@ -85,7 +85,7 @@ public class BirthdayListActivity extends AppCompatActivity implements SelectLis
         @Override
         protected Boolean doInBackground(Void... params) {
             BirthdayDatabase birthdayDatabase = BirthdayDatabase.getInstance(context);
-            birthdayDatabase.birthdayDao().insertBirthday(new Birthday(newListModel.name, newListModel.birthday.getLong(ChronoField.EPOCH_DAY),"Kennedylaan 2 Veghel"));
+            birthdayDatabase.birthdayDao().insertBirthday(new Birthday(newListModel.name, newListModel.birthday.getLong(ChronoField.EPOCH_DAY), newListModel.location));
             return true;
         }
     }
@@ -102,7 +102,7 @@ public class BirthdayListActivity extends AppCompatActivity implements SelectLis
             List<Birthday> DBlist = birthdayDatabase.birthdayDao().getBirthdayList();
             List<ListModel> listModels = new ArrayList<>();
             DBlist.forEach(birthday -> {
-                listModels.add(new ListModel(birthday.name, LocalDate.ofEpochDay(birthday.birthDate)));
+                listModels.add(new ListModel(birthday.name, LocalDate.ofEpochDay(birthday.birthDate), birthday.address));
             });
             return listModels;
         }
