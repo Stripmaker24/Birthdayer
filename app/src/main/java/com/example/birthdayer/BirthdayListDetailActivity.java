@@ -41,7 +41,6 @@ public class BirthdayListDetailActivity extends AppCompatActivity {
             calendar.set(nextBirthdayDate.getYear(), nextBirthdayDate.getMonthValue()-1, nextBirthdayDate.getDayOfMonth());
             Long nextBirthdayLong = calendar.getTimeInMillis();
             nextBirthday.setDate(nextBirthdayLong, true, true);
-            Log.e("datum", String.valueOf(nextBirthday.getDate()));
         }
     }
 
