@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<CustomViewHolder> {
     private Context context;
     private List<ListModel> list;
     private SelectListener listener;
 
-    public CustomAdapter(Context context, List<ListModel> list, SelectListener listener) {
+    public ListAdapter(Context context, List<ListModel> list, SelectListener listener) {
         this.context = context;
         this.list = list;
         this.listener = listener;
