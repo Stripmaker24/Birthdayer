@@ -4,11 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_birthday_list.xml" value="0.33" />
-        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_birthday_list_detail.xml" value="0.5" />
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_birthday_list_detail.xml" value="0.33" />
         <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_birthday_map.xml" value="0.1" />
-        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_main.xml" value="0.259375" />
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/add_person_dialog_fragment.xml" value="0.33" />
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/settings_activity.xml" value="0.3567708333333333" />
         <entry key="..\:/Github/Birthdayer/app/src/main/res/layout/single_items.xml" value="0.3567708333333333" />
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/menu/menu_main.xml" value="0.3567708333333333" />
+        <entry key="..\:/Github/Birthdayer/app/src/main/res/xml/root_preferences.xml" value="0.1" />
         <entry key="..\:/Users/julia/Documents/Birthdayer/app/src/main/res/drawable/ic_launcher_background.xml" value="0.152" />
         <entry key="..\:/Users/julia/Documents/Birthdayer/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/julia/Documents/Birthdayer/app/src/main/res/layout/birthday_map.xml" value="0.33" />

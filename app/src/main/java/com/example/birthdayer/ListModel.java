@@ -6,22 +6,33 @@ import android.os.Parcelable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 
 public class ListModel implements Parcelable {
     String name = "";
     int age = 0;
     LocalDate birthday;
 
-    public ListModel(String name, LocalDate birthday) {
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    String location = "";
+
+    public ListModel(String name, LocalDate birthday, String location) {
         setName(name);
         setBirthday(birthday);
+        setLocation(location);
     }
 
     protected ListModel(Parcel in) {
         name = in.readString();
         age = in.readInt();
         birthday = LocalDate.ofEpochDay(in.readLong());
+        location = in.readString();
     }
 
     public static final Creator<ListModel> CREATOR = new Creator<ListModel>() {
@@ -71,5 +82,6 @@ public class ListModel implements Parcelable {
         parcel.writeString(name);
         parcel.writeInt(age);
         parcel.writeLong(birthday.getLong(ChronoField.EPOCH_DAY));
+        parcel.writeString(location);
     }
 }
