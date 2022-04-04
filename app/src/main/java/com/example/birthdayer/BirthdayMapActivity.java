@@ -32,6 +32,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class BirthdayMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
 
@@ -65,7 +66,11 @@ public class BirthdayMapActivity extends AppCompatActivity implements OnMapReady
             latitude = location.getLatitude();
             longitude = location.getLongitude();
         } else {
-            locationManager.requestLocationUpdates(bestProvider, 1000, 0, this);
+            try{
+                locationManager.requestLocationUpdates(bestProvider, 1000, 0, this);
+            }catch(IllegalArgumentException e){
+                Timber.i("User location not found.");
+            }
         }
     }
 
